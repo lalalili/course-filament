@@ -5,7 +5,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "lalalili/course-core": "^0.1",
+        "lalalili/course-core": "^0.1|^0.2",
         "filament/filament": "^4.0|^5.0",
         "filament/actions": "^4.0|^5.0",
         "filament/forms": "^4.0|^5.0",

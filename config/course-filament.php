@@ -1,12 +1,15 @@
 <?php
 
+use Lalalili\CourseFilament\Pages\CoursePackageHealth;
+use Lalalili\CourseFilament\Resources\Courses\CourseResource;
+
 return [
     'resources' => [
-        Lalalili\CourseFilament\Resources\Courses\CourseResource::class,
+        CourseResource::class,
     ],
 
     'pages' => [
-        Lalalili\CourseFilament\Pages\CoursePackageHealth::class,
+        CoursePackageHealth::class,
     ],
 
 ];

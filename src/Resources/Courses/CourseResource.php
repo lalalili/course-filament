@@ -6,9 +6,10 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -23,9 +24,9 @@ use Lalalili\CourseFilament\Resources\Courses\Pages\ListCourses;
 
 class CourseResource extends Resource
 {
-    protected static string | \BackedEnum | null $navigationIcon = Heroicon::BookOpen;
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::BookOpen;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Courses';
+    protected static string|\UnitEnum|null $navigationGroup = 'Courses';
 
     protected static ?int $navigationSort = 10;
 
@@ -113,14 +114,14 @@ class CourseResource extends Resource
     }
 
     /**
-     * @return array<string, \Filament\Resources\Pages\PageRegistration>
+     * @return array<string, PageRegistration>
      */
     public static function getPages(): array
     {
         return [
-            'index'  => ListCourses::route('/'),
+            'index' => ListCourses::route('/'),
             'create' => CreateCourse::route('/create'),
-            'edit'   => EditCourse::route('/{record}/edit'),
+            'edit' => EditCourse::route('/{record}/edit'),
         ];
     }
 }
