@@ -1,0 +1,39 @@
+{
+    "name": "lalalili/course-filament",
+    "description": "Filament admin UI integration for lalalili/course-core.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "lalalili/course-core": "@dev",
+        "filament/filament": "^4.0|^5.0",
+        "filament/actions": "^4.0|^5.0",
+        "filament/forms": "^4.0|^5.0",
+        "filament/schemas": "^4.0|^5.0",
+        "filament/tables": "^4.0|^5.0",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../course-core",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lalalili\\CourseFilament\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lalalili\\CourseFilament\\CourseFilamentServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
