@@ -16,6 +16,23 @@ Require the package through Composer:
 composer require lalalili/course-filament
 ```
 
+When installing directly from GitHub before a Packagist release, add VCS repositories for this package and `course-core` to the host application's `composer.json`:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/lalalili/course-core.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/lalalili/course-filament.git"
+        }
+    ]
+}
+```
+
 Publish and customize the configuration:
 
 ```bash
