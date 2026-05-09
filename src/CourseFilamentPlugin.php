@@ -21,11 +21,22 @@ class CourseFilamentPlugin implements Plugin
     {
         $resources = collect(config('course-filament.resources', []))
             ->filter(fn (string $resource): bool => class_exists($resource))
+            ->unique()
             ->values()
             ->all();
 
         if ($resources !== []) {
             $panel->resources($resources);
+        }
+
+        $pages = collect(config('course-filament.pages', []))
+            ->filter(fn (string $page): bool => class_exists($page))
+            ->unique()
+            ->values()
+            ->all();
+
+        if ($pages !== []) {
+            $panel->pages($pages);
         }
     }
 

@@ -11,6 +11,7 @@ class CourseFilamentServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('course-filament')
-            ->hasConfigFile('course-filament');
+            ->hasConfigFile('course-filament')
+            ->hasViews();
     }
 }
