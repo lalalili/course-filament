@@ -9,6 +9,4 @@ $loader->addClassMap([
     'Lalalili\\CourseFilament\\Pages\\CoursePackageHealth' => __DIR__.'/../src/Pages/CoursePackageHealth.php',
 ]);
 
-require __DIR__.'/Pest.php';
-
 return $loader;

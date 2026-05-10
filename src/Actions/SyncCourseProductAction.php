@@ -27,6 +27,8 @@ class SyncCourseProductAction
                     return;
                 }
 
+                $record->loadMissing(['detail', 'product']);
+
                 app($serviceClass)->syncProductForCourse($record);
 
                 Notification::make()

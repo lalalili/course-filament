@@ -17,12 +17,15 @@ class CheckCourseReadinessAction
             ->icon((string) config('course-filament.readiness.action_icon', 'heroicon-o-clipboard-document-check'))
             ->color('gray')
             ->action(function (Model $record): void {
+                $record->loadMissing(self::relations());
+
                 $result = app(CourseReadinessService::class)->evaluate(
                     course: $record,
                     requireProduct: (bool) config('course-filament.readiness.require_product', false),
                     requireReadyVideos: (bool) config('course-filament.readiness.require_ready_videos', false),
                 );
 
+                self::recordReviewLog($record, $result);
                 self::notification($result)->send();
             });
     }
@@ -62,5 +65,47 @@ class CheckCourseReadinessAction
         return collect($lines)
             ->map(fn (string $line): string => "- {$line}")
             ->implode("\n");
+    }
+
+    /**
+     * @return list<string>
+     */
+    private static function relations(): array
+    {
+        $relations = config('course-filament.readiness.relations', [
+            'detail',
+            'product',
+            'chapters.units.video',
+        ]);
+
+        if (! is_array($relations)) {
+            return [];
+        }
+
+        return array_values(array_filter($relations, is_string(...)));
+    }
+
+    private static function recordReviewLog(Model $record, CourseReadinessResult $result): void
+    {
+        $modelClass = config('course-filament.readiness.review_log_model');
+
+        if (! is_string($modelClass) || ! is_subclass_of($modelClass, Model::class)) {
+            return;
+        }
+
+        /** @var class-string<Model> $modelClass */
+        $modelClass::query()->create([
+            'course_id' => $record->getKey(),
+            'actor_id' => auth()->id(),
+            'from_status' => data_get($record, 'status'),
+            'to_status' => data_get($record, 'status'),
+            'action' => 'readiness_check',
+            'comment' => $result->isReady() ? 'ready' : 'blocked',
+            'readiness_snapshot' => [
+                'blocking_issues' => $result->blockingIssues,
+                'warnings' => $result->warnings,
+                'suggestions' => $result->suggestions,
+            ],
+        ]);
     }
 }

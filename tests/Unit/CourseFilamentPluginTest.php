@@ -61,7 +61,7 @@ it('formats course readiness notifications for blocking issues', function (): vo
 
 it('builds a reusable upload center action payload', function (): void {
     $script = OpenUploadCenterAction::script([
-        'course_id'         => 5,
+        'course_id' => 5,
         'course_chapter_id' => 9,
     ]);
 
@@ -73,7 +73,7 @@ it('builds a reusable upload center action payload', function (): void {
 });
 
 it('reports missing upload center routes on the package health page', function (): void {
-    $page = new CoursePackageHealth();
+    $page = new CoursePackageHealth;
 
     expect($page->getMissingUploadCenterRoutes())->toContain('admin.upload-center.videos.store')
         ->and($page->getConfigurationStatus())->toHaveKeys([

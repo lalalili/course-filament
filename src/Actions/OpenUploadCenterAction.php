@@ -29,7 +29,7 @@ class OpenUploadCenterAction
     public static function script(array $context = []): string
     {
         $payload = array_filter(array_merge([
-            'source'   => config('course-filament.upload_center.default_source', 'course_unit'),
+            'source' => config('course-filament.upload_center.default_source', 'course_unit'),
             'strategy' => config('course-filament.upload_center.default_strategy', 's3_multipart_then_import'),
         ], $context), fn (mixed $value): bool => $value !== null);
 
