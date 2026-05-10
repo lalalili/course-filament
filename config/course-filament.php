@@ -19,6 +19,22 @@ return [
         'action_icon'          => 'heroicon-o-clipboard-document-check',
     ],
 
+    'commerce' => [
+        'sync_product_action_label' => '同步課程商品',
+        'sync_product_action_icon'  => 'heroicon-o-shopping-bag',
+    ],
+
+    'video' => [
+        'refresh_action_label' => '更新影片狀態',
+        'refresh_action_icon'  => 'heroicon-o-arrow-path',
+        'relation'             => 'video',
+        'status_columns'       => [
+            'provider_status',
+            'transcode_status',
+            'duration',
+        ],
+    ],
+
     'upload_center' => [
         'enabled'          => false,
         'view'             => 'filament.partials.upload-center',

@@ -7,6 +7,8 @@ Filament admin UI integration layer for `lalalili/course-core`.
 - Registers host course resources through a Filament panel plugin.
 - Keeps resources configurable so each application can provide its own resource classes.
 - Provides a starter course resource and package health page for new applications.
+- Provides reusable Filament actions for readiness checks, product sync, upload center launch, and video refresh.
+- Provides reusable video status table columns for course unit resources.
 - Depends on `lalalili/course-core` for shared contracts and model configuration.
 
 ## Installation
@@ -67,4 +69,30 @@ Use tagged versions in host applications:
 
 ```bash
 composer require lalalili/course-filament:^0.1
+```
+
+## Optional Commerce and Video Actions
+
+Add package actions to host resources:
+
+```php
+use Lalalili\CourseFilament\Actions\CheckCourseReadinessAction;
+use Lalalili\CourseFilament\Actions\RefreshVideoStatusAction;
+use Lalalili\CourseFilament\Actions\SyncCourseProductAction;
+use Lalalili\CourseFilament\Tables\VideoStatusColumns;
+
+protected function getHeaderActions(): array
+{
+    return [
+        CheckCourseReadinessAction::make(),
+        SyncCourseProductAction::make(),
+    ];
+}
+
+public static function table(Table $table): Table
+{
+    return $table->columns([
+        ...VideoStatusColumns::make('video'),
+    ]);
+}
 ```

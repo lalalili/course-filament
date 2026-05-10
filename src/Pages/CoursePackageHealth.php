@@ -49,6 +49,8 @@ class CoursePackageHealth extends Page
             'upload_center_view'              => config('course-filament.upload_center.view'),
             'upload_center_routes'            => $this->uploadCenterRoutesStatus(),
             'provider_refresh_job'            => config('course-filament.upload_center.refresh_job'),
+            'course_commerce_installed'       => class_exists('Lalalili\\CourseCommerce\\Support\\CourseCommerceProductBindingService') ? 'yes' : 'no',
+            'video_upload_installed'          => class_exists('Lalalili\\VideoUpload\\Services\\VideoUploadService') ? 'yes' : 'no',
         ];
     }
 

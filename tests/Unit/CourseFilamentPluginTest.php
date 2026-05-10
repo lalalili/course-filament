@@ -4,9 +4,12 @@ use Filament\Actions\Action;
 use Lalalili\CourseCore\Data\CourseReadinessResult;
 use Lalalili\CourseFilament\Actions\CheckCourseReadinessAction;
 use Lalalili\CourseFilament\Actions\OpenUploadCenterAction;
+use Lalalili\CourseFilament\Actions\RefreshVideoStatusAction;
+use Lalalili\CourseFilament\Actions\SyncCourseProductAction;
 use Lalalili\CourseFilament\CourseFilamentPlugin;
 use Lalalili\CourseFilament\Pages\CoursePackageHealth;
 use Lalalili\CourseFilament\Resources\Courses\CourseResource;
+use Lalalili\CourseFilament\Tables\VideoStatusColumns;
 
 it('provides default course resources and health page through config', function (): void {
     expect(config('course-filament.resources'))->toContain(CourseResource::class)
@@ -29,6 +32,20 @@ it('ships reusable course readiness action defaults for host opt in', function (
     expect(config('course-filament.readiness.require_product'))->toBeFalse()
         ->and(config('course-filament.readiness.require_ready_videos'))->toBeFalse()
         ->and(CheckCourseReadinessAction::make())->toBeInstanceOf(Action::class);
+});
+
+it('ships reusable course commerce and video actions', function (): void {
+    expect(SyncCourseProductAction::make())->toBeInstanceOf(Action::class)
+        ->and(RefreshVideoStatusAction::make())->toBeInstanceOf(Action::class);
+});
+
+it('builds reusable video status table columns', function (): void {
+    $columns = VideoStatusColumns::make('video');
+
+    expect($columns)->toHaveCount(3)
+        ->and($columns[0]->getName())->toBe('video.provider_status')
+        ->and($columns[1]->getName())->toBe('video.transcode_status')
+        ->and($columns[2]->getName())->toBe('video.duration');
 });
 
 it('formats course readiness notifications for blocking issues', function (): void {
@@ -63,5 +80,7 @@ it('reports missing upload center routes on the package health page', function (
             'product_resolver',
             'readiness_requires_product',
             'readiness_requires_ready_videos',
+            'course_commerce_installed',
+            'video_upload_installed',
         ]);
 });
