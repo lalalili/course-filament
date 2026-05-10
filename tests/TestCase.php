@@ -18,4 +18,18 @@ class TestCase extends Orchestra
             CourseFilamentServiceProvider::class,
         ];
     }
+
+    protected function getEnvironmentSetUp($app): void
+    {
+        config()->set('app.key', 'base64:'.base64_encode(str_repeat('a', 32)));
+        config()->set('database.default', 'testing');
+        config()->set('database.connections.testing', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+
+        config()->set('course-filament', require __DIR__.'/../config/course-filament.php');
+        config()->set('course-core', require __DIR__.'/../../course-core/config/course-core.php');
+    }
 }
