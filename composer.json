@@ -1,12 +1,12 @@
 {
     "name": "lalalili/course-filament",
     "description": "Filament admin UI integration for lalalili/course-core.",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "type": "library",
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "lalalili/course-core": "^0.1|^0.2",
+        "lalalili/course-core": "^0.1|^0.2|^0.3|^0.4",
         "filament/filament": "^4.0|^5.0",
         "filament/actions": "^4.0|^5.0",
         "filament/forms": "^4.0|^5.0",
