@@ -1,7 +1,6 @@
 {
     "name": "lalalili/course-filament",
     "description": "Filament admin UI integration for lalalili/course-core.",
-    "version": "0.3.1",
     "type": "library",
     "license": "MIT",
     "require": {
