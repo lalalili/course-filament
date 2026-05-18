@@ -15,7 +15,7 @@ class UploadCenterRenderHook
 
         FilamentView::registerRenderHook(
             $hook,
-            fn () => view((string) config('course-filament.upload_center.view', 'filament.partials.upload-center')),
+            fn () => view((string) config('course-filament.upload_center.view', 'course-filament::partials.upload-center')),
         );
     }
 }

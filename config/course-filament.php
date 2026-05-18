@@ -37,7 +37,7 @@ return [
 
     'upload_center' => [
         'enabled' => false,
-        'view' => 'filament.partials.upload-center',
+        'view' => 'course-filament::partials.upload-center',
         'default_source' => 'course_unit',
         'default_strategy' => 's3_multipart_then_import',
         'action_label' => '大型影片上傳',

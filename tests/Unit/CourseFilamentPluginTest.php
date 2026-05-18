@@ -22,6 +22,7 @@ it('uses a stable plugin id', function (): void {
 
 it('ships disabled upload center integration defaults for host opt in', function (): void {
     expect(config('course-filament.upload_center.enabled'))->toBeFalse()
+        ->and(config('course-filament.upload_center.view'))->toBe('course-filament::partials.upload-center')
         ->and(config('course-filament.upload_center.default_strategy'))->toBe('s3_multipart_then_import')
         ->and(config('course-filament.upload_center.concurrency'))->toBe(2)
         ->and(config('course-filament.upload_center.s3_part_size'))->toBe(8 * 1024 * 1024)
