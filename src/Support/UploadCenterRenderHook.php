@@ -4,6 +4,7 @@ namespace Lalalili\CourseFilament\Support;
 
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 
 class UploadCenterRenderHook
 {
@@ -15,7 +16,14 @@ class UploadCenterRenderHook
 
         FilamentView::registerRenderHook(
             $hook,
-            fn () => view((string) config('course-filament.upload_center.view', 'course-filament::partials.upload-center')),
+            fn () => app(ViewFactory::class)->make(self::uploadCenterView()),
         );
+    }
+
+    private static function uploadCenterView(): string
+    {
+        $view = config('course-filament.upload_center.view', 'course-filament::partials.upload-center');
+
+        return is_string($view) ? $view : 'course-filament::partials.upload-center';
     }
 }

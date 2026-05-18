@@ -21,6 +21,7 @@ use Lalalili\CourseCore\Contracts\CourseTenantResolver;
 use Lalalili\CourseFilament\Resources\Courses\Pages\CreateCourse;
 use Lalalili\CourseFilament\Resources\Courses\Pages\EditCourse;
 use Lalalili\CourseFilament\Resources\Courses\Pages\ListCourses;
+use Lalalili\CourseFilament\Resources\Courses\RelationManagers\ChapterRelationManager;
 
 class CourseResource extends Resource
 {
@@ -34,7 +35,7 @@ class CourseResource extends Resource
     {
         $model = config('course-core.models.course');
 
-        return is_string($model) && class_exists($model) ? $model : Model::class;
+        return is_string($model) && is_subclass_of($model, Model::class) ? $model : Model::class;
     }
 
     public static function shouldRegisterNavigation(): bool
@@ -111,6 +112,16 @@ class CourseResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    /**
+     * @return array<int, class-string>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            ChapterRelationManager::class,
+        ];
     }
 
     /**

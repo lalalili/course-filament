@@ -1,11 +1,13 @@
 <?php
 
 use Lalalili\CourseFilament\Pages\CoursePackageHealth;
+use Lalalili\CourseFilament\Resources\CourseCategories\CourseCategoryResource;
 use Lalalili\CourseFilament\Resources\Courses\CourseResource;
 
 return [
     'resources' => [
         CourseResource::class,
+        CourseCategoryResource::class,
     ],
 
     'pages' => [

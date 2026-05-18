@@ -33,7 +33,7 @@ class CourseCategoryResource extends Resource
     {
         $model = config('course-core.models.category');
 
-        return is_string($model) && class_exists($model) ? $model : Model::class;
+        return is_string($model) && is_subclass_of($model, Model::class) ? $model : Model::class;
     }
 
     public static function shouldRegisterNavigation(): bool
@@ -116,9 +116,9 @@ class CourseCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListCourseCategories::route('/'),
+            'index' => ListCourseCategories::route('/'),
             'create' => CreateCourseCategory::route('/create'),
-            'edit'   => EditCourseCategory::route('/{record}/edit'),
+            'edit' => EditCourseCategory::route('/{record}/edit'),
         ];
     }
 }

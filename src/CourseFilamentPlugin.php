@@ -19,7 +19,8 @@ class CourseFilamentPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $resources = collect(config('course-filament.resources', []))
+        $configuredResources = config('course-filament.resources', []);
+        $resources = collect(is_array($configuredResources) ? $configuredResources : [])
             ->filter(fn (string $resource): bool => class_exists($resource))
             ->unique()
             ->values()
@@ -29,7 +30,8 @@ class CourseFilamentPlugin implements Plugin
             $panel->resources($resources);
         }
 
-        $pages = collect(config('course-filament.pages', []))
+        $configuredPages = config('course-filament.pages', []);
+        $pages = collect(is_array($configuredPages) ? $configuredPages : [])
             ->filter(fn (string $page): bool => class_exists($page))
             ->unique()
             ->values()

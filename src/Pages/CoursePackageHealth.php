@@ -59,7 +59,9 @@ class CoursePackageHealth extends Page
      */
     public function getMissingUploadCenterRoutes(): array
     {
-        return collect(config('course-filament.upload_center.required_routes', []))
+        $requiredRoutes = config('course-filament.upload_center.required_routes', []);
+
+        return collect(is_array($requiredRoutes) ? $requiredRoutes : [])
             ->filter(fn (string $route): bool => ! Route::has($route))
             ->values()
             ->all();
