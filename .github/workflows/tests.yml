@@ -19,12 +19,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: course-filament
 
       - name: Checkout course-core
         uses: actions/checkout@v4
         with:
           repository: lalalili/course-core
-          path: ../course-core
+          path: course-core
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -32,13 +34,17 @@ jobs:
           coverage: none
 
       - name: Install dependencies
+        working-directory: course-filament
         run: composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
 
       - name: Composer install
+        working-directory: course-filament
         run: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Validate composer
+        working-directory: course-filament
         run: composer validate --strict --no-check-publish
 
       - name: Run tests
+        working-directory: course-filament
         run: composer test

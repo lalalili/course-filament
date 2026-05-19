@@ -28,7 +28,10 @@
             "type": "path",
             "url": "../course-core",
             "options": {
-                "symlink": true
+                "symlink": true,
+                "versions": {
+                    "lalalili/course-core": "0.4.0"
+                }
             }
         }
     ],
