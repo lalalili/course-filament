@@ -2,6 +2,7 @@
 
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Model;
 use Lalalili\CourseCore\Data\CourseReadinessResult;
 use Lalalili\CourseFilament\Actions\CheckCourseReadinessAction;
 use Lalalili\CourseFilament\Actions\SyncCourseProductAction;
@@ -11,7 +12,7 @@ use Lalalili\CourseFilament\Resources\Courses\RelationManagers\ChapterRelationMa
 use Lalalili\CourseFilament\Tables\VideoStatusColumns;
 
 it('emits success notification when course is ready with no issues', function (): void {
-    $result = new CourseReadinessResult();
+    $result = new CourseReadinessResult;
 
     $notification = CheckCourseReadinessAction::notification($result);
 
@@ -67,9 +68,11 @@ it('includes CourseCategoryResource in package default resources config', functi
 });
 
 it('resolves CourseCategoryResource model from course-core config', function (): void {
-    config()->set('course-core.models.category', App\Models\CourseCategory::class);
+    $categoryModel = get_class(new class extends Model {});
 
-    expect(CourseCategoryResource::getModel())->toBe(App\Models\CourseCategory::class);
+    config()->set('course-core.models.category', $categoryModel);
+
+    expect(CourseCategoryResource::getModel())->toBe($categoryModel);
 });
 
 it('includes ChapterRelationManager in CourseResource relations', function (): void {
@@ -77,7 +80,8 @@ it('includes ChapterRelationManager in CourseResource relations', function (): v
 });
 
 it('exposes chapterType and unitType as null by default', function (): void {
-    $manager = new class () extends ChapterRelationManager {
+    $manager = new class extends ChapterRelationManager
+    {
         public function publicChapterType(): mixed
         {
             return $this->chapterType();
@@ -94,11 +98,27 @@ it('exposes chapterType and unitType as null by default', function (): void {
 });
 
 it('host can override chapterType and unitType', function (): void {
-    $manager = new class () extends ChapterRelationManager {
-        protected function chapterType(): mixed { return 1; }
-        protected function unitType(): mixed { return 2; }
-        public function publicChapterType(): mixed { return $this->chapterType(); }
-        public function publicUnitType(): mixed { return $this->unitType(); }
+    $manager = new class extends ChapterRelationManager
+    {
+        protected function chapterType(): mixed
+        {
+            return 1;
+        }
+
+        protected function unitType(): mixed
+        {
+            return 2;
+        }
+
+        public function publicChapterType(): mixed
+        {
+            return $this->chapterType();
+        }
+
+        public function publicUnitType(): mixed
+        {
+            return $this->unitType();
+        }
     };
 
     expect($manager->publicChapterType())->toBe(1)
@@ -121,7 +141,6 @@ it('SyncCourseProductAction label and icon follow config', function (): void {
     expect($action->getLabel())->toBe('商品同步');
 });
 
-it('course-commerce package is present in the package test environment', function (): void {
-    // course-filament requires course-commerce; the class must exist in the vendor.
-    expect(class_exists('Lalalili\\CourseCommerce\\Support\\CourseCommerceProductBindingService'))->toBeTrue();
+it('does not require course-commerce in the package test environment', function (): void {
+    expect(class_exists('Lalalili\\CourseCommerce\\Support\\CourseCommerceProductBindingService'))->toBeFalse();
 });
