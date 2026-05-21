@@ -3,15 +3,3 @@
 /build
 /.phpunit.cache/
 /.phpunit.result.cache
-/.github/
-/src/
-/tests/
-/resources/views/pages/
-/resources/views/components/
-/resources/views/filament/
-CHANGELOG.md
-LICENSE
-README.md
-SECURITY.md
-composer.json
-phpunit.xml.dist
