@@ -68,8 +68,10 @@ $panel->plugins([
 Use tagged versions in host applications:
 
 ```bash
-composer require lalalili/course-filament:^0.1
+composer require lalalili/course-filament:^0.3
 ```
+
+The current aitehub host uses Laravel 13, Filament 5, and `lalalili/course-filament:^0.3.1`.
 
 ## Optional Commerce and Video Actions
 
@@ -95,4 +97,12 @@ public static function table(Table $table): Table
         ...VideoStatusColumns::make('video'),
     ]);
 }
+```
+
+## Tests
+
+From the package directory:
+
+```bash
+./vendor/bin/pest
 ```
