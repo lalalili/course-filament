@@ -5,6 +5,7 @@ namespace Lalalili\CourseFilament\Actions;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
+use Lalalili\VideoUpload\Models\Video;
 
 class RefreshVideoStatusAction
 {
@@ -29,7 +30,7 @@ class RefreshVideoStatusAction
 
                 $video = self::videoFromRecord($record);
 
-                if (! $video instanceof Model) {
+                if (! $video instanceof Video) {
                     Notification::make()
                         ->title('找不到影片')
                         ->warning()
@@ -47,20 +48,20 @@ class RefreshVideoStatusAction
             });
     }
 
-    private static function videoFromRecord(Model $record): ?Model
+    private static function videoFromRecord(Model $record): ?Video
     {
         $relation = (string) config('course-filament.video.relation', 'video');
 
         if ($relation !== '' && $record->relationLoaded($relation)) {
             $video = $record->getRelation($relation);
 
-            return $video instanceof Model ? $video : null;
+            return $video instanceof Video ? $video : null;
         }
 
         if ($relation !== '' && method_exists($record, $relation)) {
             $video = $record->{$relation}()->getResults();
 
-            return $video instanceof Model ? $video : null;
+            return $video instanceof Video ? $video : null;
         }
 
         return null;
