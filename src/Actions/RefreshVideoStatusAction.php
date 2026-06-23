@@ -5,7 +5,6 @@ namespace Lalalili\CourseFilament\Actions;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
-use Lalalili\VideoUpload\Models\Video;
 
 class RefreshVideoStatusAction
 {
@@ -17,8 +16,9 @@ class RefreshVideoStatusAction
             ->color('gray')
             ->action(function (Model $record): void {
                 $serviceClass = 'Lalalili\\VideoUpload\\Services\\VideoUploadService';
+                $videoClass = 'Lalalili\\VideoUpload\\Models\\Video';
 
-                if (! class_exists($serviceClass)) {
+                if (! class_exists($serviceClass) || ! class_exists($videoClass)) {
                     Notification::make()
                         ->title('尚未安裝影片上傳套件')
                         ->body('請先安裝 lalalili/video-upload 後再更新影片狀態。')
@@ -30,7 +30,7 @@ class RefreshVideoStatusAction
 
                 $video = self::videoFromRecord($record);
 
-                if (! $video instanceof Video) {
+                if (! $video instanceof Model || ! is_a($video, $videoClass)) {
                     Notification::make()
                         ->title('找不到影片')
                         ->warning()
@@ -48,20 +48,20 @@ class RefreshVideoStatusAction
             });
     }
 
-    private static function videoFromRecord(Model $record): ?Video
+    private static function videoFromRecord(Model $record): ?Model
     {
         $relation = (string) config('course-filament.video.relation', 'video');
 
         if ($relation !== '' && $record->relationLoaded($relation)) {
             $video = $record->getRelation($relation);
 
-            return $video instanceof Video ? $video : null;
+            return $video instanceof Model ? $video : null;
         }
 
         if ($relation !== '' && method_exists($record, $relation)) {
             $video = $record->{$relation}()->getResults();
 
-            return $video instanceof Video ? $video : null;
+            return $video instanceof Model ? $video : null;
         }
 
         return null;
