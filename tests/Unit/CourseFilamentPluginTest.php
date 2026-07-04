@@ -1,6 +1,9 @@
 <?php
 
 use Filament\Actions\Action;
+use Filament\Panel;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Lalalili\CourseCore\Data\CourseReadinessResult;
 use Lalalili\CourseFilament\Actions\CheckCourseReadinessAction;
 use Lalalili\CourseFilament\Actions\OpenUploadCenterAction;
@@ -27,6 +30,20 @@ it('ships disabled upload center integration defaults for host opt in', function
         ->and(config('course-filament.upload_center.concurrency'))->toBe(2)
         ->and(config('course-filament.upload_center.s3_part_size'))->toBe(8 * 1024 * 1024)
         ->and(config('course-filament.upload_center.required_routes'))->toContain('admin.upload-center.videos.store');
+});
+
+it('registers the upload center render hook when enabled', function (): void {
+    config()->set('course-filament.upload_center.enabled', true);
+
+    $panel = Panel::make();
+
+    CourseFilamentPlugin::make()->boot($panel);
+
+    $registerRenderHooks = (new ReflectionClass($panel))->getMethod('registerRenderHooks');
+    $registerRenderHooks->setAccessible(true);
+    $registerRenderHooks->invoke($panel);
+
+    expect(FilamentView::hasRenderHook(PanelsRenderHook::BODY_END))->toBeTrue();
 });
 
 it('ships reusable course readiness action defaults for host opt in', function (): void {

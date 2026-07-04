@@ -4,6 +4,7 @@ namespace Lalalili\CourseFilament;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Lalalili\CourseFilament\Support\UploadCenterRenderHook;
 
 class CourseFilamentPlugin implements Plugin
 {
@@ -42,5 +43,8 @@ class CourseFilamentPlugin implements Plugin
         }
     }
 
-    public function boot(Panel $panel): void {}
+    public function boot(Panel $panel): void
+    {
+        UploadCenterRenderHook::register($panel);
+    }
 }
