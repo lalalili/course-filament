@@ -25,14 +25,8 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "../course-core",
-            "options": {
-                "symlink": true,
-                "versions": {
-                    "lalalili/course-core": "0.4.0"
-                }
-            }
+            "type": "vcs",
+            "url": "https://github.com/lalalili/course-core.git"
         }
     ],
     "extra": {
