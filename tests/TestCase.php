@@ -30,6 +30,6 @@ class TestCase extends Orchestra
         ]);
 
         config()->set('course-filament', require __DIR__.'/../config/course-filament.php');
-        config()->set('course-core', require __DIR__.'/../../course-core/config/course-core.php');
+        config()->set('course-core', require __DIR__.'/../vendor/lalalili/course-core/config/course-core.php');
     }
 }
