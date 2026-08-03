@@ -1,0 +1,55 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pest:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.4']
+        laravel: ['12.*', '13.*']
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: course-filament
+
+      - name: Checkout course-core
+        uses: actions/checkout@v4
+        with:
+          repository: lalalili/course-core
+          path: course-core
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Install dependencies
+        working-directory: course-filament
+        run: composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
+
+      - name: Composer install
+        working-directory: course-filament
+        run: composer update --prefer-dist --no-interaction --no-progress
+
+      - name: Validate composer
+        working-directory: course-filament
+        run: composer validate --strict --no-check-publish
+
+      - name: Run tests
+        working-directory: course-filament
+        run: composer test
+
+      - name: Check formatting
+        working-directory: course-filament
+        run: composer format -- --test
+
+      - name: Static analysis
+        working-directory: course-filament
+        run: composer analyse
