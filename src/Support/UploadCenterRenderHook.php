@@ -22,6 +22,9 @@ class UploadCenterRenderHook
         );
     }
 
+    /**
+     * @return view-string
+     */
     private static function uploadCenterView(): string
     {
         $view = config('course-filament.upload_center.view', 'course-filament::partials.upload-center');
