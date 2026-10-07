@@ -29,6 +29,9 @@ class UploadCenterRenderHook
     {
         $view = config('course-filament.upload_center.view', 'course-filament::partials.upload-center');
 
-        return is_string($view) ? $view : 'course-filament::partials.upload-center';
+        /** @var view-string $name */
+        $name = is_string($view) ? $view : 'course-filament::partials.upload-center';
+
+        return $name;
     }
 }
